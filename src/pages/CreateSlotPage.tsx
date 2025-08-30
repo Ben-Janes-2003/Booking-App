@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSlotStore } from '../state/slotStore';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const CreateSlotPage = () => {
   const { createSlot, isLoading, error } = useSlotStore();
@@ -20,7 +21,7 @@ const CreateSlotPage = () => {
     });
   
     if (success) {
-        alert('Slot created successfully!');
+        toast.success('Slot created successfully!');
         navigate('/');
     }
   };
