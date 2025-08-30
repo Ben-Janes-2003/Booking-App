@@ -15,8 +15,9 @@ interface Actions {
   setName: (name: string) => void;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
-  login: () => Promise<void>;
+  login: () => Promise<boolean>;
   register: () => Promise<boolean>;
+  logout: () => void;
 }
 
 type AuthState = State & Actions;
@@ -46,9 +47,11 @@ export const useAuthStore = create<AuthState>()(
           const response = await apiClient.post('/auth/login', { email, password });
           const { token } = response.data;
           set({ token, isLoading: false, password: '' });
+          return true;
         } catch (error) {
           console.error('Login failed:', error);
           set({ error: 'Login failed. Please check your credentials.', isLoading: false });
+          return false;
         }
       },
       register: async () => {
@@ -63,6 +66,9 @@ export const useAuthStore = create<AuthState>()(
           set({ error: errorMessage, isLoading: false });
           return false;
         }
+      },
+      logout: () => {
+        set({ token: null });
       },
     }),
     {
