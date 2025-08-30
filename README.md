@@ -65,4 +65,4 @@ Want to run this on your own machine? Here’s how:
 ---
 ## Deployment
 
-This app is set up for continuous deployment on **AWS Amplify**. Any push to the `main` branch will automatically trigger a new build and deploy the latest version to the live URL.
+This app is set up for continuous deployment on **AWS Amplify**. Any push to the `master` branch will automatically trigger a new build and deploy the latest version to the live URL.
