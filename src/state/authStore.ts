@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import apiClient from '../services/api';
 
 interface State {
+  name: string;
   email: string;
   password: string;
   token: string | null;
@@ -11,14 +12,17 @@ interface State {
 }
 
 interface Actions {
+  setName: (name: string) => void;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   login: () => Promise<void>;
+  register: () => Promise<boolean>;
 }
 
 type AuthState = State & Actions;
 
 const initialState: State = {
+  name: '',
   email: '',
   password: '',
   token: null,
@@ -31,6 +35,7 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       ...initialState,
 
+      setName: (name) => set({ name }),
       setEmail: (email) => set({ email }),
       setPassword: (password) => set({ password }),
       login: async () => {
@@ -44,6 +49,19 @@ export const useAuthStore = create<AuthState>()(
         } catch (error) {
           console.error('Login failed:', error);
           set({ error: 'Login failed. Please check your credentials.', isLoading: false });
+        }
+      },
+      register: async () => {
+        const { name, email, password } = get();
+        set({ isLoading: true, error: null });
+        try {
+          await apiClient.post('/auth/register', { name, email, password });
+          set({ isLoading: false });
+          return true;
+        } catch (error: any) {
+          const errorMessage = error.response?.data?.title || 'Registration failed.';
+          set({ error: errorMessage, isLoading: false });
+          return false;
         }
       },
     }),

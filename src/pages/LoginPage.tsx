@@ -1,4 +1,5 @@
 import { useAuthStore } from '../state/authStore'; 
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
     const { email, setEmail, password, setPassword, login, isLoading, error } = useAuthStore();
@@ -43,6 +44,12 @@ const LoginPage = () => {
                 {isLoading ? 'Logging in...' : 'Login'}
             </button>
             </form>
+            <p className="text-center mt-4">
+                Don't have an account?{' '}
+                <Link to="/register" className="text-blue-400 hover:underline">
+                    Register here
+                </Link>
+            </p>
         </div>
         </div>
     );
