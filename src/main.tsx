@@ -6,6 +6,8 @@ import './index.css';
 import LoginPage from './pages/LoginPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import AvailableSlotsPage from './pages/AvailableSlotsPage.tsx';
+import MyBookingsPage from './pages/MyBookingsPage.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,15 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <RegisterPage />,
+      },
+    ],
+  },
+  {
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: '/my-bookings',
+        element: <MyBookingsPage />,
       },
     ],
   },

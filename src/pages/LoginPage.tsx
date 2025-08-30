@@ -1,12 +1,17 @@
 import { useAuthStore } from '../state/authStore'; 
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const { email, setEmail, password, setPassword, login, isLoading, error } = useAuthStore();
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        login();
+        const success = await login();
+        if (success) {
+            navigate('/my-bookings');
+        }
     };
     return (
         <div className="flex justify-center items-center h-screen">
