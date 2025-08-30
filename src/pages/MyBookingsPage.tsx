@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useBookingStore } from '../state/bookingStore';
+import Spinner from '../components/Spinner';
 
 const MyBookingsPage = () => {
   const { bookings, isLoading, error, fetchBookings } = useBookingStore();
@@ -9,7 +10,11 @@ const MyBookingsPage = () => {
   }, [fetchBookings]);
 
   if (isLoading) {
-    return <div className="p-8 text-center">Loading your bookings...</div>;
+    return (
+      <div className="flex justify-center items-center p-8">
+        <Spinner />
+      </div>
+    );
   }
 
   if (error) {
