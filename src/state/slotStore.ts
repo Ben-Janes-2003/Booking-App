@@ -7,11 +7,17 @@ interface TimeSlot {
   durationMinutes: number;
 }
 
+interface CreateSlotDto {
+  startTime: string;
+  durationMinutes: number;
+}
+
 interface SlotState {
   slots: TimeSlot[];
   isLoading: boolean;
   error: string | null;
   fetchSlots: () => Promise<void>;
+  createSlot: (slotData: CreateSlotDto) => Promise<boolean>;
 }
 
 export const useSlotStore = create<SlotState>((set) => ({
@@ -26,6 +32,19 @@ export const useSlotStore = create<SlotState>((set) => ({
     } catch (error) {
       console.error('Failed to fetch slots:', error);
       set({ error: 'Could not load available slots.', isLoading: false });
+    }
+  },
+  createSlot: async (slotData) => {
+    set({ isLoading: true, error: null });
+    try {
+      await apiClient.post('/slots', slotData);
+      set({ isLoading: false });
+      return true;
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.title || 'Failed to create slot.';
+      set({ error: errorMessage, isLoading: false });
+      console.error('Failed to create slot:', error);
+      return false;
     }
   },
 }));
