@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSlotStore } from '../state/slotStore';
 import { useAuthStore } from '../state/authStore';
 import { useBookingStore } from '../state/bookingStore';
+import Spinner from '../components/Spinner';
 import toast from 'react-hot-toast';
 
 const AvailableSlotsPage = () => {
@@ -31,7 +32,11 @@ const AvailableSlotsPage = () => {
   }, [fetchSlots]);
 
   if (isLoading) {
-    return <div className="p-8 text-center">Loading available slots...</div>;
+    return (
+      <div className="flex justify-center items-center p-8">
+        <Spinner />
+      </div>
+    );
   }
 
   if (error) {
