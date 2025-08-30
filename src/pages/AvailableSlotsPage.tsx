@@ -4,6 +4,7 @@ import { useSlotStore } from '../state/slotStore';
 import { useAuthStore } from '../state/authStore';
 import { useBookingStore } from '../state/bookingStore';
 import Spinner from '../components/Spinner';
+import toast from 'react-hot-toast';
 
 const AvailableSlotsPage = () => {
   const { slots, isLoading, error, fetchSlots } = useSlotStore();
@@ -19,10 +20,10 @@ const AvailableSlotsPage = () => {
 
     const success = await createBooking(slotId);
     if (success) {
-      alert('Booking successful!');
+      toast.success('Booking successful!');
       fetchSlots();
     } else {
-      alert('Booking failed. The slot may have been taken.');
+      toast.error(error || 'Booking failed.');
     }
   };
 

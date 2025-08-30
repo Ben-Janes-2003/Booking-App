@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from './state/authStore';
 
@@ -12,6 +13,15 @@ function App() {
 
   return (
     <div className="bg-slate-900 text-white min-h-screen">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#334155',
+            color: '#fff',
+          },
+        }}
+      />
       <header className="bg-gray-800 shadow-md">
         <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
           <Link to="/" className="text-xl font-bold text-white">BookingApp</Link>
