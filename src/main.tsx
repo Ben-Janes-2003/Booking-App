@@ -5,12 +5,17 @@ import App from './App.tsx';
 import './index.css';
 import LoginPage from './pages/LoginPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
+import AvailableSlotsPage from './pages/AvailableSlotsPage.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      {
+        index: true,
+        element: <AvailableSlotsPage />,
+      },
       {
         path: '/login',
         element: <LoginPage />,
