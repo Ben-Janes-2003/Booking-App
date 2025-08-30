@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import apiClient from '../services/api';
+import { jwtDecode } from 'jwt-decode';
+
+interface User {
+  unique_name: string;
+  role: string;
+}
 
 interface State {
   name: string;
@@ -9,6 +15,7 @@ interface State {
   token: string | null;
   error: string | null;
   isLoading: boolean;
+  user: User | null;
 }
 
 interface Actions {
@@ -29,6 +36,7 @@ const initialState: State = {
   token: null,
   error: null,
   isLoading: false,
+  user: null,
 };
 
 export const useAuthStore = create<AuthState>()(
@@ -46,7 +54,7 @@ export const useAuthStore = create<AuthState>()(
         try {
           const response = await apiClient.post('/auth/login', { email, password });
           const { token } = response.data;
-          set({ token, isLoading: false, password: '' });
+          set({ token, user: jwtDecode(token), isLoading: false, password: '' });
           return true;
         } catch (error) {
           console.error('Login failed:', error);
@@ -68,12 +76,12 @@ export const useAuthStore = create<AuthState>()(
         }
       },
       logout: () => {
-        set({ token: null });
+        set({ token: null, user: null });
       },
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ token: state.token }),
+      partialize: (state) => ({ token: state.token, user: state.user }),
     }
   )
 );

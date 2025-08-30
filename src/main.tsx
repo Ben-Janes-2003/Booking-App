@@ -8,6 +8,8 @@ import RegisterPage from './pages/RegisterPage.tsx';
 import AvailableSlotsPage from './pages/AvailableSlotsPage.tsx';
 import MyBookingsPage from './pages/MyBookingsPage.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
+import AdminRoute from './components/AdminRoute.tsx';
+import CreateSlotPage from './pages/CreateSlotPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -26,14 +28,23 @@ const router = createBrowserRouter([
         path: '/register',
         element: <RegisterPage />,
       },
-    ],
-  },
-  {
-    element: <ProtectedRoute />,
-    children: [
       {
-        path: '/my-bookings',
-        element: <MyBookingsPage />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: '/my-bookings',
+            element: <MyBookingsPage />,
+          },
+        ],
+      },
+      {
+        element: <AdminRoute />,
+        children: [
+          {
+            path: '/admin/create-slot',
+            element: <CreateSlotPage />,
+          },
+        ],
       },
     ],
   },
